@@ -99,7 +99,6 @@ export type GetAllCookies = (extensionId: string) => Promise<{
 export interface ExtensionClientConstructorOptions {
   /** Extension settings */
   settings?: Record<string, any>;
-
   getAllCookies?: GetAllCookies;
 }
 

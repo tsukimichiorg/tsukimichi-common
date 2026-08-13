@@ -1,15 +1,29 @@
 /**
  * Available filter types for search/filtering.
+ * Each type determines how the filter should be rendered.
  */
 export type FilterType =
-  | "text"
-  | "select"
-  | "multi-select"
-  | "checkbox"
-  | "tri-state-checkbox"
-  | "radio"
-  | "number";
+  | "text" // Text input
+  | "select" // Single selection dropdown
+  | "multi-select" // Multiple selection (checkbox group or multi-select dropdown)
+  | "checkbox" // Single checkbox
+  | "sort" // Sort control with field and direction
+  | "tri-state-checkbox" // Checkbox with three states (checked, unchecked, indeterminate)
+  | "radio" // Radio button group for mutually exclusive options
+  | "number"; // Numeric input
 
+/**
+ * Direction for sorting
+ */
+export type SortDirection = "ascending" | "descending";
+
+/**
+ * Tri-state checkbox value
+ *
+ * - "checked": The item is explicitly selected
+ * - "unchecked": The item is explicitly unselected
+ * - "indeterminate": The item is neither selected nor unselected
+ */
 export type TriStateValue = "checked" | "unchecked" | "indeterminate";
 
 /** Base interface for all filter types */
@@ -20,18 +34,16 @@ export interface BaseFilter {
   label: string;
   /** Filter type */
   type: FilterType;
-  /** Whether filter is required */
-  required?: boolean;
   /** Optional description */
   description?: string;
   /** Default value */
-  defaultValue?: string | number | boolean;
+  defaultValue?: string | number | string[];
 }
 
 /** Filter option for select/multi-select/radio */
 export interface FilterOption {
   /** Option value */
-  value: string | number | boolean;
+  value: string;
   /** Display label */
   label: string;
   /** Whether option is disabled */
@@ -40,12 +52,10 @@ export interface FilterOption {
 
 /** Text input filter */
 export interface TextFilter extends BaseFilter {
-  defaultValue: string;
+  defaultValue?: string;
   type: "text";
   /** Placeholder text */
   placeholder?: string;
-  /** Maximum character length */
-  maxLength?: number;
 }
 
 /** Single-select dropdown filter */
@@ -53,7 +63,19 @@ export interface SelectFilter extends BaseFilter {
   type: "select";
   /** Available options */
   options: FilterOption[];
-  multiple?: false;
+  defaultValue?: string;
+}
+
+export interface SortFilter extends Omit<BaseFilter, "defaultValue"> {
+  type: "sort";
+  options: FilterOption[];
+  defaultValue: string;
+  /**
+   * Default sort direction.
+   *
+   * @default - "descending"
+   */
+  defaultDirection?: SortDirection;
 }
 
 /**
@@ -63,13 +85,13 @@ export interface MultiSelectFilter extends Omit<BaseFilter, "defaultValue"> {
   type: "multi-select";
   /** Available options */
   options: FilterOption[];
-  multiple: true;
   /** Maximum number of selectable items */
   maxSelection?: number;
   /**
    * How to render the filter
    */
   renderAs: "checkbox-group" | "select";
+  defaultValue?: string[];
 }
 
 /**
@@ -77,15 +99,19 @@ export interface MultiSelectFilter extends Omit<BaseFilter, "defaultValue"> {
  */
 export interface CheckboxFilter extends BaseFilter {
   type: "checkbox";
-  /** Default checked state */
-  defaultValue?: boolean;
+  /**
+   * Default value
+   *
+   * Note: This value will be used to determine whether the checkbox is checked or not
+   */
+  defaultValue?: string;
 }
 
 /** Tri-state checkbox filter */
-export interface TriStateCheckboxFilter extends BaseFilter {
+export interface TriStateCheckboxFilter extends Omit<BaseFilter, "defaultValue"> {
   type: "tri-state-checkbox";
   options: FilterOption[];
-  multiple: boolean;
+  defaultValue?: TriStateFilterValue[];
 }
 
 /** Radio button group filter */
@@ -104,12 +130,17 @@ export interface NumberFilter extends BaseFilter {
   max?: number;
   /** Step increment */
   step?: number;
+  /**
+   * Default value as a number or a string representation
+   */
+  defaultValue?: number | string;
 }
 
 /** Union of all filter types */
 export type Filter =
   | TextFilter
   | SelectFilter
+  | SortFilter
   | MultiSelectFilter
   | CheckboxFilter
   | TriStateCheckboxFilter
@@ -122,7 +153,7 @@ export interface ExtensionFilterConfig {
   extensionId: string;
   /** Extension display name */
   extensionName: string;
-  /** Optional header text */
+  /** Optional header text to render at the very top of the filter list */
   header?: string;
   /** Array of supported filters */
   supportedFilters: Filter[];
@@ -134,4 +165,9 @@ export interface ExtensionFilterConfig {
 export interface TriStateFilterValue {
   state: TriStateValue;
   value: string;
+}
+
+export interface SortFilterValue {
+  value: string;
+  direction: SortDirection;
 }

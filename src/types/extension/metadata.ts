@@ -61,12 +61,8 @@ export interface ExtensionMetadata {
   /** Whether the extension supports fetching latest series */
   supportsLatest: boolean;
 
-  /** Whether the extension supports fetching popular series */
+  /**
+   * Whether the extension supports fetching popular series
+   */
   supportsPopular: boolean;
-
-  /** Whether chapter images require proxying */
-  requireChapterImageProxy: boolean;
-
-  /** Whether cover images require proxying */
-  requireCoverImageProxy: boolean;
 }
