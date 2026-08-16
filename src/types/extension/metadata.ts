@@ -31,29 +31,29 @@ export interface ExtensionMetadata {
   /**
    * URL of the extension/site icon
    */
-  iconUrl?: string | null;
+  iconUrl: string | null;
+
+  /**
+   * A language code following [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
+   * or `multi` if the extension supports multiple languages
+   */
+  lang: string;
 
   /**
    * Whether the extension contains any NSFW content
    */
-  containsNsfwContent: boolean;
-
-  /**
-   * Whether the extension is solely focused on NSFW content.
-   * If `true`, the extension is primarily for adult content.
-   */
-  isNsfwFocused: boolean;
+  isNsfw: boolean;
 
   /**
    * Base URL for API endpoints (if different from main url)
    */
-  apiUrl?: string | null;
+  apiUrl: string | null;
 
   /**
    * Extension version following semantic versioning
    * @see {@link https://semver.org/}
    */
-  version?: string;
+  version: string;
 
   /** Whether this is a manga extension (vs anime) */
   isManga: boolean;
