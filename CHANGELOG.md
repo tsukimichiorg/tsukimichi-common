@@ -1,5 +1,11 @@
 # @tsukimichi/common
 
+## 0.3.0
+
+### Minor Changes
+
+- [`3137ade`](https://github.com/tsukimichiorg/tsukimichi-common/commit/3137ade85d45e096ec88504bd841bc7b3d030c5b) Thanks [@redoyyy](https://github.com/redoyyy)! - refactor: simplify extension metadata
+
 ## 0.2.0
 
 ### Minor Changes
