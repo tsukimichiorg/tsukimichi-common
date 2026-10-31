@@ -8,7 +8,6 @@ export type SettingsType =
   | "number"
   | "select"
   | "multi-select"
-  | "radio"
   | "checkbox";
 
 /** Base interface for all setting types */
@@ -48,19 +47,6 @@ export interface PasswordSetting extends BaseSetting {
   placeholder?: string;
 }
 
-/** Number input setting */
-export interface NumberSetting extends BaseSetting {
-  type: "number";
-  /** Default numeric value */
-  defaultValue?: number;
-  /** Minimum allowed value */
-  min?: number;
-  /** Maximum allowed value */
-  max?: number;
-  /** Step increment */
-  step?: number;
-}
-
 /** Option for select/multi-select/radio inputs */
 export interface Option {
   /** Display label */
@@ -91,15 +77,6 @@ export interface MultiSelectSetting extends BaseSetting {
   options: Option[];
 }
 
-/** Radio button group setting */
-export interface RadioSetting extends BaseSetting {
-  type: "radio";
-  /** Default selected value */
-  defaultValue?: string;
-  /** Available options */
-  options: Option[];
-}
-
 /** Checkbox setting */
 export interface CheckboxSetting extends BaseSetting {
   type: "checkbox";
@@ -112,18 +89,6 @@ export type Setting =
   | ToggleSetting
   | TextSetting
   | PasswordSetting
-  | NumberSetting
   | SelectSetting
   | MultiSelectSetting
-  | RadioSetting
   | CheckboxSetting;
-
-/** Complete extension settings configuration */
-export interface ExtensionSettings {
-  /** Extension identifier */
-  extensionId: string;
-  /** Extension display name */
-  extensionName: string;
-  /** Array of setting definitions */
-  settings: Setting[];
-}

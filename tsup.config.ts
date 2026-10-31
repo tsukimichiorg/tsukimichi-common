@@ -6,7 +6,7 @@ export default defineConfig({
   minify: false,
   dts: {
     entry: "src/index.ts",
-    resolve: true,
+    resolve: false,
   },
   splitting: false,
   sourcemap: false,

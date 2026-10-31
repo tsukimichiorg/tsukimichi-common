@@ -41,13 +41,10 @@ export interface ExtensionMetadata {
 
   /**
    * Whether the extension contains any NSFW content
+   *
+   * Available values are `nsfw`, `sfw` and `mixed`
    */
-  isNsfw: boolean;
-
-  /**
-   * Base URL for API endpoints (if different from main url)
-   */
-  apiUrl: string | null;
+  contentRating: string;
 
   /**
    * Extension version following semantic versioning

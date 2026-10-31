@@ -27,7 +27,7 @@ export interface AudioTrack extends BaseTrack {
 /** Auxiliary tracks (thumbnails, metadata, etc.) */
 export interface AuxiliaryTrack extends BaseTrack {
   /** Track type */
-  kind: "thumbnails" | "metadata";
+  kind: "thumbnails" | "metadata" | "chapters";
 }
 
 /** HTTP headers as key-value pairs */

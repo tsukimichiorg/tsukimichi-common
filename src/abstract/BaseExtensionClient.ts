@@ -6,7 +6,7 @@ import type {
   GetPopularSeries,
   GetSeries,
   GetSeriesStatus,
-  GetSettingsPreference,
+  GetSettingsFilters,
   SearchSeries,
   SeriesListResponse,
 } from "@/types/extension/client";
@@ -52,6 +52,18 @@ export abstract class BaseExtensionClient<T> {
    * Base URL of the source without trailing slash
    */
   abstract baseUrl: string;
+
+  /**
+   * Lifecycle hook called by the app once the client is constructed, before
+   * the extension is used.
+   *
+   * Override this to perform one-time async setup. The base implementation does nothing.
+   *
+   * @returns A promise that resolves when initialization is complete
+   */
+  async init(): Promise<void> {
+    return Promise.resolve();
+  }
 
   /**
    * Extension metadata - must be defined by subclass
@@ -140,26 +152,22 @@ export abstract class BaseExtensionClient<T> {
    * @example
    * ```ts
    * override getFilterConfig: GetFilterConfig = () => ({
-   *  extensionId: this.extensionMetadata.id,
-   *  extensionName: this.extensionMetadata.name,
-   *  supportedFilters: [
-       { key: "genre", label: "Genre", type: "multi-select", options: [...],
-        renderAs: "checkbox-group", multiple: true },
+   *  filters: [
+   *   { key: "genre", label: "Genre", type: "multi-select", options: [...],
+   *    renderAs: "checkbox-group" },
    *  ]
    * });
    *```
    * @return Filter configuration object
    */
   getFilterConfig: GetFilterConfig = () => ({
-    extensionId: this.extensionMetadata.id,
-    extensionName: this.extensionMetadata.name,
-    supportedFilters: [],
+    filters: [],
   });
 
   /**
    * Get extension settings preferences
    */
-  abstract getSettingsPreference: GetSettingsPreference;
+  abstract getSettingsFilters: GetSettingsFilters;
 
   /**
    * Get image data for a given image URL
@@ -170,11 +178,6 @@ export abstract class BaseExtensionClient<T> {
 
   //   ==================== Some helper methods ====================
 
-  protected getSetting<V = unknown>(key: string, fallback?: V): V {
-    const value = this.settings?.[key];
-    return (value !== undefined ? value : fallback) as V;
-  }
-
   /**
    * Builds a paginated empty response — useful as a default return value
    * when a fetch yields no results.
@@ -182,10 +185,7 @@ export abstract class BaseExtensionClient<T> {
   protected emptyListResponse<S>(): SeriesListResponse<S> {
     return {
       data: [],
-      pagination: {
-        hasMore: false,
-        nextPage: null,
-      },
+      hasMore: false,
     };
   }
 

@@ -4,23 +4,17 @@ import type { Status } from "../core";
  * Represents an anime series from an extension source.
  */
 export interface Anime {
-  /** Unique identifier for the anime */
-  id: string;
-  /** Identifier of the extension that provides this anime */
-  extensionId: string;
   /** Main title of the anime */
   title: string;
   /** Publication status of the anime */
   status: Status;
   /** URL of the cover image, or null if not available */
   coverImageUrl: string | null;
-  /** Name or identifier of the content source (e.g., website name) */
-  source: string;
   /**
-   * URL of the anime, relative to the base URL of the source
+   * URL of the anime or the identifier of the anime in the source
    *
    * Must be stable across calls to
-   * {@link GetLatestSeries}, {@link SearchSeries}, {@link GetPopularSeries} and {@link GetSeries}
+   * `GetLatestSeries`, `SearchSeries`, `GetPopularSeries` and `GetSeries`
    */
   url: string;
   /** Whether the anime contains NSFW content, or null if unknown */
@@ -46,12 +40,6 @@ export interface Anime {
  * Represents a single episode of an anime.
  */
 export interface Episode {
-  /** Unique identifier for the episode */
-  id: string;
-  /** Identifier of the extension that provides this episode */
-  extensionId: string;
-  /** Name or identifier of the content source */
-  source: string;
   /** Display title of the episode */
   title: string;
   /** URL of the episode, relative to the base URL of the source */

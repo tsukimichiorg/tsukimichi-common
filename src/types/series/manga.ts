@@ -5,19 +5,18 @@ import type { Status } from "../core";
  * Represents a manga series from an extension source.
  */
 export interface Manga {
-  /** Unique identifier for the manga */
-  id: string;
-  /** Identifier of the extension that provides this manga */
-  extensionId: string;
   /** Main title of the manga */
   title: string;
   /** Publication status of the manga */
   status: Status;
   /** URL of the cover image, or null if not available */
   coverImageUrl: string | null;
-  /** Name or identifier of the content source (e.g., website name) */
-  source: string;
-  /** URL of the manga, relative to the base URL of the source */
+  /**
+   * URL of the anime or the identifier of the anime in the source
+   *
+   * Must be stable across calls to
+   * `GetLatestSeries`, `SearchSeries`, `GetPopularSeries` and `GetSeries`
+   */
   url: string;
   /** Whether the manga contains NSFW content, or null if unknown */
   isNsfw: boolean | null;
@@ -43,23 +42,6 @@ export interface Manga {
  * Represents a single chapter of a manga.
  */
 export interface Chapter {
-  /**
-   * Unique identifier for this chapter.
-   * Should be stable and consistent across fetches.
-   */
-  id: string;
-
-  /**
-   * Identifier of the extension that provides this chapter.
-   * Used internally to map the chapter back to its source implementation.
-   */
-  extensionId: string;
-
-  /**
-   * Name or identifier of the content source (e.g., website name).
-   */
-  source: string;
-
   /**
    * Display title of the chapter.
    * @example "Chapter 12", "Episode 5", etc.

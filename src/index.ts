@@ -11,4 +11,6 @@ export * from "./types/extension/settings";
 export * from "./types/extension/video";
 export * from "./types/extension/client";
 
+export * from "./types/preferences";
+
 export * from "./lib/language";
